@@ -1,5 +1,20 @@
 ﻿# HTF25-Team-415 - AI-Powered Video Caption Generator
 
+<div align="center">
+
+![AI Caption Generator Web Interface](UI.jpg)
+
+**Transform your videos with AI-powered captions in multiple languages and styles**
+
+[![Python 3.10+](https://img.shields.io/badge/python-3.10+-blue.svg)](https://www.python.org/downloads/)
+[![Flask](https://img.shields.io/badge/flask-latest-green.svg)](https://flask.palletsprojects.com/)
+[![OpenAI Whisper](https://img.shields.io/badge/OpenAI-Whisper-orange.svg)](https://github.com/openai/whisper)
+[![Google Gemini](https://img.shields.io/badge/Google-Gemini-red.svg)](https://ai.google.dev/)
+
+</div>
+
+---
+
 An intelligent video captioning application that uses OpenAI Whisper for transcription and Google Gemini AI for caption rewriting. This tool automatically generates and overlays stylized captions on your videos.
 
 ## 🌟 Features
@@ -15,7 +30,19 @@ An intelligent video captioning application that uses OpenAI Whisper for transcr
 - **Result Page**: Beautiful success page with confetti animation and download options
 - **Secure**: File validation, size limits (500MB), and automatic temp file cleanup
 
-## 📋 Prerequisites
+## � Screenshots
+
+### Web Application Interface
+
+![AI Caption Generator UI](UI.jpg)
+_Modern, responsive web interface with drag & drop support, multiple style options, and language selection_
+
+### Output Sample - Video with AI-Generated Captions
+
+![Captioned Video Output](output.mp4)
+_Example of processed video with AI-generated captions overlaid in selected style and language_
+
+## �📋 Prerequisites
 
 Before you begin, ensure you have the following installed:
 
@@ -104,12 +131,50 @@ The application will automatically open in your default browser at `http://127.0
 
 ### Using the Application
 
+![Web Interface](UI.jpg)
+
 1. **Upload Video**: Click the upload area or drag & drop your video file
 2. **Choose Style**: Select from 6 caption styles (casual, formal, funny, dramatic, minimal, educational)
 3. **Select Language**: Choose output language from 10+ supported languages
 4. **Generate**: Click "Generate Captions" and wait for processing
 5. **Download**: Get both the captioned video and SRT subtitle file
 6. **Access Files**: All outputs are saved in the `outputs/` folder with unique timestamped names
+
+### Sample Output
+
+![Captioned Video](video.jpg)
+
+The above image shows an example of the final output - a video with AI-generated captions overlaid in your selected style and language.
+
+## 🎬 How It Works
+
+```
+┌─────────────────────┐
+│   Upload Video      │  ← User uploads video via web interface
+└──────────┬──────────┘
+           ↓
+┌─────────────────────┐
+│  Whisper AI         │  ← OpenAI Whisper transcribes audio
+│  Transcription      │
+└──────────┬──────────┘
+           ↓
+┌─────────────────────┐
+│  Gemini AI          │  ← Google Gemini rewrites in selected style
+│  Caption Rewriting  │
+└──────────┬──────────┘
+           ↓
+┌─────────────────────┐
+│  SRT Generation     │  ← Generate standard subtitle file
+└──────────┬──────────┘
+           ↓
+┌─────────────────────┐
+│  Caption Overlay    │  ← Overlay captions on video using PIL
+└──────────┬──────────┘
+           ↓
+┌─────────────────────┐
+│  Download Results   │  ← Get captioned video + SRT file
+└─────────────────────┘
+```
 
 ## 📁 Project Structure
 
@@ -218,6 +283,35 @@ This project is part of the HTF25 hackathon.
 ## 👥 Team
 
 **Team 415** - HTF25 Hackathon Participants
+
+## 🎨 Results Showcase
+
+### Application Interface
+
+Our modern web interface with gradient design and intuitive controls:
+
+<div align="center">
+  <img src="UI.jpg" alt="AI Caption Generator Interface" width="85%">
+  <p><i>Beautiful web interface with drag & drop support, multiple style options, and responsive design</i></p>
+</div>
+
+### Sample Output
+
+Example of AI-generated captions overlaid on video with selected style and language:
+
+<div align="center">
+  <img src="video.jpg" alt="Video with AI Captions" width="85%">
+  <p><i>Professional caption overlay showing AI-enhanced text in the selected style</i></p>
+</div>
+
+### Key Visual Features
+
+- 🎨 **Modern UI Design**: Purple gradient theme with smooth animations
+- 🖱️ **Drag & Drop**: Intuitive file upload with visual feedback
+- 📱 **Responsive Layout**: Works seamlessly on all devices
+- 🎬 **Professional Output**: High-quality caption overlay with customizable styles
+- 📊 **Success Page**: Confetti animation with download options
+- 📁 **Organized Storage**: Timestamped files in dedicated outputs folder
 
 ## 🙏 Acknowledgments
 
