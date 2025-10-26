@@ -5,6 +5,10 @@ from datetime import datetime
 import json
 import os
 import google.generativeai as genai
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 FAILED_KEYS_FILE = "disabled_keys.json"
 USAGE_FILE = "usage_counts.json"
@@ -116,40 +120,15 @@ Text: '{text}'
         print(f"🔄 Translation: English → {target_language}")
     print(f"📏 Text length: {len(text)} characters")
 
-    api_keys = [
-        "AIzaSyCG-BB-0iP8bTiTJiT9ZgC5eJkzDftV28I",
-        "AIzaSyBGpWydub8jBjKW_JM808Q57x_KSVg1Fxw",
-        "AIzaSyD-7i3eVHY_tQBlLedDGUYb12tPm88F2bg",
-        "AIzaSyCT-678mR3ur4beLyWJJ-QdWA8W8cHvWtM",
-        "AIzaSyBnKryfOjV-XsR0tdXWdYv4MXnbvvh_QWU",
-        "AIzaSyBenRCth2XXKL6BXh_gRtDAznPfbTd9t4k",
-        "AIzaSyCG6iIVxuoPAwRC8FL0DMHhywAFg58vxbM",
-        "AIzaSyCWyJeh999WPRt5Mf8hgAfT78hkl_oyy3I",
-        "AIzaSyDQoF2-V-jPVinMIHIs4Dts8KPpXeL-5_E",
-        "AIzaSyA5VLL-EFpKs2Z0iVdLLK6ir_n9-b1wtrc",
-        "AIzaSyCRNFcI51fF1KoS3YbBnaGtFMLIhSqnaSs",
-        "AIzaSyCkhmr6hYUKCQMVuNaVMwhUmfLIrvOMn7g",
-        "AIzaSyBFZS7DX_wDWvWjln22G3zN2XjORuMJV5o",
-        "AIzaSyDOFT9J2OlqyR2KhhMP9qBaE3LqeLQLaIc",
-        "AIzaSyDDBqYMNprBSxs006y_Mjm-2iFsedqvyE4",
-        "AIzaSyAv7KdGJul7xb5tCnx2bLqZEStXTTtY-NA",
-        "AIzaSyAFn_8ws-tj-ix7R_MIvTg-REUZ-93riZo",
-        "AIzaSyB9ESuSqJMbEnAdvBKxaGJsfTrkdvaobYc",
-        "AIzaSyCqXHtA2dl3tUumG21cMwbhxQdVP9LzypY",
-        "AIzaSyAQCRR1KSbgiF3OkXUOInZOntFw1VU4n4k",
-        "AIzaSyChdyTOEFX11YlnDaLKMh7IAXA_OzxpWSg",
-        "AIzaSyBcBKM39mCY2x2-90tId2LRRQbOzwefLpE",
-        "AIzaSyAKrMt8nww_uDt0stvfdsI8TX6T_SdSPjE",
-        "AIzaSyCVrV7x9kfe2PPA3zroFl9usejOo8ROIFI",
-        "AIzaSyCf5ekkmLP-1sweyXaUYbbg7OQ6Sbjl8rY",
-        "AIzaSyAU4f5q3_szq3llfmMP3coyDRjrRKy-llk",
-        "AIzaSyDq7c5xRhNs0Fn4CQR3Yt-3pDOlW6IrmTc",
-        "AIzaSyCeBqAU_8suws4TQq0nf0qo2bwJhiIF5g4"
-
-
-    ]
+    # Load API keys from environment variables
+    api_keys = []
+    for i in range(1, 29):  # Load keys 1-28
+        key = os.getenv(f"GEMINI_API_KEY_{i}")
+        if key:
+            api_keys.append(key)
+    
     if not api_keys:
-        raise RuntimeError("No Gemini API keys found in .env")
+        raise RuntimeError("No Gemini API keys found in .env file")
 
     model_names = [model_name or "gemini-2.5-flash-preview-05-20"]
     disabled_keys_today = load_disabled_keys()

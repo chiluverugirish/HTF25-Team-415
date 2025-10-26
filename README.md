@@ -202,18 +202,37 @@ pip install -r requirements.txt
 
 ### Step 6: Set Up Environment Variables
 
-Create a `.env` file in the project root directory and add your API keys:
+Copy the example environment file and add your Gemini API keys:
 
-```env
-GEMINI_API_KEY=your_gemini_api_key_here
+```powershell
+# Copy the example file
+Copy-Item .env.example .env
+
+# Edit .env and add your API keys
+notepad .env
 ```
 
-To get a Gemini API key:
+Configure your `.env` file with at least one Gemini API key (28 keys recommended for high-volume):
+
+```env
+GEMINI_API_KEY_1=your_first_gemini_api_key_here
+GEMINI_API_KEY_2=your_second_gemini_api_key_here
+GEMINI_API_KEY_3=your_third_gemini_api_key_here
+# ... add up to GEMINI_API_KEY_28
+```
+
+**To get Gemini API keys:**
 
 1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Sign in with your Google account
-3. Create a new API key
-4. Copy and paste it into your `.env` file
+3. Create new API keys (recommended: 28 keys for automatic rotation)
+4. Copy and paste them into your `.env` file
+
+**⚠️ SECURITY NOTE:**
+
+- Never commit the `.env` file to Git (it's in `.gitignore`)
+- Never share your API keys publicly
+- The `.env.example` file is a template without real keys
 
 ### Step 7: Verify Installation
 
