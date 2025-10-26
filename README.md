@@ -6,10 +6,14 @@ An intelligent video captioning application that uses OpenAI Whisper for transcr
 
 - **Automatic Transcription**: Uses OpenAI Whisper to transcribe video audio
 - **AI Caption Rewriting**: Leverages Google Gemini AI to rewrite captions in different styles
-- **Multi-language Support**: Generate captions in multiple languages
-- **Video Overlay**: Automatically overlays captions on your video
-- **Web Interface**: Easy-to-use Flask web interface
-- **Customizable Styles**: Choose from different caption styles
+- **Multi-language Support**: Generate captions in 10+ languages (English, Hindi, Spanish, French, German, etc.)
+- **Video Overlay**: Automatically overlays captions on your video using PIL (no ImageMagick required)
+- **Beautiful Web Interface**: Modern, responsive Flask web interface with drag & drop support
+- **Multiple Caption Styles**: Choose from 6 styles - Casual, Formal, Funny, Dramatic, Minimal, Educational
+- **Unique File Management**: All outputs saved with timestamps in organized `outputs/` folder
+- **Dual Download**: Get both captioned video (.mp4) and subtitle file (.srt)
+- **Result Page**: Beautiful success page with confetti animation and download options
+- **Secure**: File validation, size limits (500MB), and automatic temp file cleanup
 
 ## 📋 Prerequisites
 
@@ -79,9 +83,20 @@ python -c "import streamlit; import whisper; import moviepy; print('✅ All pack
 
 ### Running the Application
 
-Start the Flask web server:
+#### Quick Start (Recommended):
 
 ```powershell
+# Using startup script
+.\start.ps1
+```
+
+Or manually:
+
+```powershell
+# Activate environment
+conda activate D:\conda_envs\Ai_Caption_Gen
+
+# Start the app
 python app.py
 ```
 
@@ -89,11 +104,12 @@ The application will automatically open in your default browser at `http://127.0
 
 ### Using the Application
 
-1. **Upload Video**: Click the upload button and select your video file
-2. **Choose Style**: Select the caption style you prefer
-3. **Select Language**: Choose the output language for captions
-4. **Process**: Click submit to process your video
-5. **Download**: Once complete, download your captioned video
+1. **Upload Video**: Click the upload area or drag & drop your video file
+2. **Choose Style**: Select from 6 caption styles (casual, formal, funny, dramatic, minimal, educational)
+3. **Select Language**: Choose output language from 10+ supported languages
+4. **Generate**: Click "Generate Captions" and wait for processing
+5. **Download**: Get both the captioned video and SRT subtitle file
+6. **Access Files**: All outputs are saved in the `outputs/` folder with unique timestamped names
 
 ## 📁 Project Structure
 

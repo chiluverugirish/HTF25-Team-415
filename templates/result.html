@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Result - AI Caption Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 50px 60px;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 700px;
+        width: 100%;
+        text-align: center;
+        animation: slideIn 0.8s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .success-icon {
+        font-size: 80px;
+        color: #4caf50;
+        margin-bottom: 20px;
+        animation: bounce 1s ease-in-out;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-20px);
+        }
+      }
+
+      h1 {
+        font-weight: 700;
+        font-size: 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 16px;
+        margin-bottom: 30px;
+      }
+
+      .info-card {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 25px;
+        border-radius: 15px;
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 0;
+        border-bottom: 1px solid rgba(102, 126, 234, 0.2);
+      }
+
+      .info-row:last-child {
+        border-bottom: none;
+      }
+
+      .info-label {
+        color: #666;
+        font-weight: 500;
+        font-size: 14px;
+      }
+
+      .info-label i {
+        margin-right: 8px;
+        color: #667eea;
+      }
+
+      .info-value {
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .download-section {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .download-btn {
+        padding: 18px 25px;
+        border-radius: 15px;
+        border: none;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+      }
+
+      .download-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      }
+
+      .download-btn.secondary {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        color: #667eea;
+      }
+
+      .download-btn.secondary:hover {
+        background: linear-gradient(135deg, #c3cfe2 0%, #f5f7fa 100%);
+      }
+
+      .btn-back {
+        width: 100%;
+        padding: 15px;
+        border-radius: 15px;
+        border: 2px solid #667eea;
+        background: transparent;
+        color: #667eea;
+        font-weight: 600;
+        font-size: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: inline-block;
+      }
+
+      .btn-back:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .preview-section {
+        margin: 30px 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 15px;
+      }
+
+      .preview-section h3 {
+        color: #667eea;
+        margin-bottom: 15px;
+        font-size: 18px;
+      }
+
+      .video-placeholder {
+        background: #333;
+        border-radius: 10px;
+        padding: 40px;
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        font-size: 14px;
+      }
+
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 15px;
+        margin-bottom: 25px;
+      }
+
+      .stat-card {
+        background: white;
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+
+      .stat-icon {
+        font-size: 24px;
+        color: #667eea;
+        margin-bottom: 8px;
+      }
+
+      .stat-value {
+        font-size: 20px;
+        font-weight: 700;
+        color: #333;
+        margin-bottom: 5px;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #999;
+        font-weight: 500;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 30px 25px;
+        }
+
+        .download-section {
+          grid-template-columns: 1fr;
+        }
+
+        .stats {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="success-icon">
+        <i class="fas fa-check-circle"></i>
+      </div>
+
+      <h1>🎉 Video Processed Successfully!</h1>
+      <p class="subtitle">Your captioned video is ready to download</p>
+
+      <div class="info-card">
+        <div class="info-row">
+          <span class="info-label">
+            <i class="fas fa-file-video"></i> Original File
+          </span>
+          <span class="info-value">{{ result.original_name }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label"> <i class="fas fa-palette"></i> Style </span>
+          <span class="info-value">{{ result.style|title }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">
+            <i class="fas fa-language"></i> Language
+          </span>
+          <span class="info-value">{{ result.lang|upper }}</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">
+            <i class="fas fa-clock"></i> Processed At
+          </span>
+          <span class="info-value">{{ result.timestamp }}</span>
+        </div>
+      </div>
+
+      <div class="stats">
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-video"></i>
+          </div>
+          <div class="stat-value">HD</div>
+          <div class="stat-label">Quality</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-closed-captioning"></i>
+          </div>
+          <div class="stat-value">AI</div>
+          <div class="stat-label">Captions</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-icon">
+            <i class="fas fa-magic"></i>
+          </div>
+          <div class="stat-value">Pro</div>
+          <div class="stat-label">Enhanced</div>
+        </div>
+      </div>
+
+      <div class="download-section">
+        <a
+          href="{{ url_for('download', filename=result.video_file) }}"
+          class="download-btn"
+        >
+          <i class="fas fa-download"></i>
+          Download Video
+        </a>
+        <a
+          href="{{ url_for('download', filename=result.srt_file) }}"
+          class="download-btn secondary"
+        >
+          <i class="fas fa-file-alt"></i>
+          Download SRT
+        </a>
+      </div>
+
+      <a href="{{ url_for('index') }}" class="btn-back">
+        <i class="fas fa-arrow-left"></i> Process Another Video
+      </a>
+
+      <div
+        style="
+          margin-top: 30px;
+          padding: 15px;
+          background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+          border-radius: 12px;
+        "
+      >
+        <p style="color: #2e7d32; font-size: 13px; margin: 0">
+          <i class="fas fa-info-circle"></i>
+          <strong>Tip:</strong> Files are saved in the
+          <code>outputs/</code> folder for future reference
+        </p>
+      </div>
+    </div>
+
+    <script>
+      // Auto-scroll to top on page load
+      window.scrollTo(0, 0);
+
+      // Add confetti effect
+      function createConfetti() {
+        const colors = ["#667eea", "#764ba2", "#4caf50", "#ff9800"];
+        for (let i = 0; i < 50; i++) {
+          setTimeout(() => {
+            const confetti = document.createElement("div");
+            confetti.style.position = "fixed";
+            confetti.style.width = "10px";
+            confetti.style.height = "10px";
+            confetti.style.backgroundColor =
+              colors[Math.floor(Math.random() * colors.length)];
+            confetti.style.left = Math.random() * 100 + "vw";
+            confetti.style.top = "-10px";
+            confetti.style.borderRadius = "50%";
+            confetti.style.pointerEvents = "none";
+            confetti.style.zIndex = "9999";
+            document.body.appendChild(confetti);
+
+            const animation = confetti.animate(
+              [
+                { transform: "translateY(0) rotate(0deg)", opacity: 1 },
+                {
+                  transform: `translateY(100vh) rotate(${
+                    Math.random() * 360
+                  }deg)`,
+                  opacity: 0,
+                },
+              ],
+              {
+                duration: 3000 + Math.random() * 2000,
+                easing: "cubic-bezier(0.25, 0.46, 0.45, 0.94)",
+              }
+            );
+
+            animation.onfinish = () => confetti.remove();
+          }, i * 30);
+        }
+      }
+
+      // Trigger confetti on page load
+      window.addEventListener("load", createConfetti);
+    </script>
+  </body>
+</html>

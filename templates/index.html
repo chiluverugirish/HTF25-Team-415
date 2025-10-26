@@ -1,109 +1,602 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>AI Video Caption Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Video Caption Generator - HTF25</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
     <style>
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
 
-        body {
-            font-family: 'Roboto', sans-serif;
-            background: linear-gradient(135deg, #1f1f1f, #2c2c2c);
-            color: #fff;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        position: relative;
+        overflow-x: hidden;
+      }
 
+      /* Animated background particles */
+      .particles {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        overflow: hidden;
+        z-index: 0;
+      }
+
+      .particle {
+        position: absolute;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        animation: float 15s infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) translateX(0);
+        }
+        25% {
+          transform: translateY(-100px) translateX(50px);
+        }
+        50% {
+          transform: translateY(-200px) translateX(-50px);
+        }
+        75% {
+          transform: translateY(-100px) translateX(100px);
+        }
+      }
+
+      .container {
+        background: rgba(255, 255, 255, 0.95);
+        backdrop-filter: blur(10px);
+        padding: 50px 60px;
+        border-radius: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+        max-width: 600px;
+        width: 100%;
+        text-align: center;
+        position: relative;
+        z-index: 1;
+        animation: slideIn 0.8s ease-out;
+      }
+
+      @keyframes slideIn {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .header {
+        margin-bottom: 40px;
+      }
+
+      .logo {
+        font-size: 60px;
+        margin-bottom: 15px;
+        animation: bounce 2s infinite;
+      }
+
+      @keyframes bounce {
+        0%,
+        100% {
+          transform: translateY(0);
+        }
+        50% {
+          transform: translateY(-10px);
+        }
+      }
+
+      h1 {
+        font-weight: 700;
+        font-size: 32px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 14px;
+        font-weight: 400;
+      }
+
+      .form-group {
+        margin-bottom: 25px;
+        text-align: left;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
+        font-size: 14px;
+      }
+
+      .file-input-wrapper {
+        position: relative;
+        overflow: hidden;
+        display: inline-block;
+        width: 100%;
+      }
+
+      .file-input-wrapper input[type="file"] {
+        position: absolute;
+        left: -9999px;
+      }
+
+      .file-input-label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border: 2px dashed #667eea;
+        border-radius: 15px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        color: #667eea;
+        font-weight: 500;
+      }
+
+      .file-input-label:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        border-color: #764ba2;
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+      }
+
+      .file-input-label i {
+        margin-right: 10px;
+        font-size: 20px;
+      }
+
+      .file-name {
+        margin-top: 10px;
+        font-size: 13px;
+        color: #667eea;
+        font-weight: 500;
+      }
+
+      .select-wrapper {
+        position: relative;
+      }
+
+      select,
+      input[type="text"] {
+        width: 100%;
+        padding: 15px 20px;
+        border-radius: 15px;
+        border: 2px solid #e0e0e0;
+        font-size: 15px;
+        font-family: "Poppins", sans-serif;
+        transition: all 0.3s ease;
+        background: white;
+        color: #333;
+      }
+
+      select:focus,
+      input[type="text"]:focus {
+        outline: none;
+        border-color: #667eea;
+        box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1);
+      }
+
+      select {
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23667eea' d='M10.293 3.293L6 7.586 1.707 3.293A1 1 0 00.293 4.707l5 5a1 1 0 001.414 0l5-5a1 1 0 10-1.414-1.414z'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 20px center;
+        padding-right: 50px;
+      }
+
+      input[type="text"]::placeholder {
+        color: #aaa;
+      }
+
+      .btn-submit {
+        width: 100%;
+        padding: 18px;
+        margin-top: 30px;
+        border-radius: 15px;
+        border: none;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        font-weight: 600;
+        font-size: 16px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .btn-submit:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-submit:active {
+        transform: translateY(-1px);
+      }
+
+      .btn-submit i {
+        margin-right: 10px;
+      }
+
+      .btn-submit:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+
+      .alert {
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+        animation: slideDown 0.5s ease-out;
+      }
+
+      @keyframes slideDown {
+        from {
+          opacity: 0;
+          transform: translateY(-20px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .alert i {
+        margin-right: 12px;
+        font-size: 18px;
+      }
+
+      .alert-error {
+        background: #fee;
+        color: #c33;
+        border: 1px solid #fcc;
+      }
+
+      .alert-success {
+        background: #efe;
+        color: #3c3;
+        border: 1px solid #cfc;
+      }
+
+      .alert-info {
+        background: #eef;
+        color: #33c;
+        border: 1px solid #ccf;
+      }
+
+      .note {
+        font-size: 13px;
+        color: #999;
+        margin-top: 25px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .note i {
+        margin-right: 8px;
+      }
+
+      .features {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+        margin-top: 30px;
+      }
+
+      .feature {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 15px;
+        border-radius: 12px;
+        font-size: 13px;
+        color: #555;
+        font-weight: 500;
+      }
+
+      .feature i {
+        color: #667eea;
+        margin-right: 8px;
+      }
+
+      .loading {
+        display: none;
+        text-align: center;
+        padding: 20px;
+      }
+
+      .spinner {
+        border: 3px solid #f3f3f3;
+        border-top: 3px solid #667eea;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        animation: spin 1s linear infinite;
+        margin: 0 auto 15px;
+      }
+
+      @keyframes spin {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
+
+      @media (max-width: 768px) {
         .container {
-            background: #1b1b1b;
-            padding: 40px 50px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.6);
-            width: 400px;
-            text-align: center;
+          padding: 30px 25px;
         }
 
         h1 {
-            font-weight: 700;
-            font-size: 28px;
-            margin-bottom: 25px;
-            color: #1db954;
+          font-size: 26px;
         }
 
-        input[type="file"],
-        input[type="text"] {
-            width: 100%;
-            padding: 12px 15px;
-            margin: 10px 0;
-            border-radius: 8px;
-            border: none;
-            font-size: 16px;
+        .features {
+          grid-template-columns: 1fr;
         }
-
-        input[type="text"]::placeholder {
-            color: #aaa;
-        }
-
-        button {
-            width: 100%;
-            padding: 12px;
-            margin-top: 15px;
-            border-radius: 8px;
-            border: none;
-            background: #1db954;
-            color: white;
-            font-weight: 700;
-            font-size: 16px;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        button:hover {
-            background: #17a647;
-        }
-
-        .flash {
-            color: #ff4c4c;
-            margin-bottom: 20px;
-            font-weight: 500;
-        }
-
-        p.note {
-            font-size: 14px;
-            color: #aaa;
-            margin-top: 10px;
-        }
+      }
     </style>
-</head>
-<body>
-    <div class="container">
-        <h1>🎬 AI Caption Generator</h1>
-
-        {% with messages = get_flashed_messages() %}
-          {% if messages %}
-            <div class="flash">
-              {% for message in messages %}
-                <p>{{ message }}</p>
-              {% endfor %}
-            </div>
-          {% endif %}
-        {% endwith %}
-
-        <form method="post" enctype="multipart/form-data">
-            <input type="file" name="video" accept="video/*" required><br>
-            <input type="text" name="style" placeholder="Enter caption style (e.g., casual, formal)" required><br>
-            <input type="text" name="lang" placeholder="Enter language code (e.g., en, hi, es)" required><br>
-            <button type="submit">Generate Captions</button>
-        </form>
-
-        <p class="note">Supported video formats: MP4, MOV</p>
+  </head>
+  <body>
+    <!-- Animated particles background -->
+    <div class="particles">
+      <div
+        class="particle"
+        style="
+          width: 10px;
+          height: 10px;
+          left: 10%;
+          top: 20%;
+          animation-delay: 0s;
+        "
+      ></div>
+      <div
+        class="particle"
+        style="
+          width: 15px;
+          height: 15px;
+          left: 80%;
+          top: 30%;
+          animation-delay: 2s;
+        "
+      ></div>
+      <div
+        class="particle"
+        style="
+          width: 8px;
+          height: 8px;
+          left: 50%;
+          top: 60%;
+          animation-delay: 4s;
+        "
+      ></div>
+      <div
+        class="particle"
+        style="
+          width: 12px;
+          height: 12px;
+          left: 20%;
+          top: 80%;
+          animation-delay: 1s;
+        "
+      ></div>
+      <div
+        class="particle"
+        style="
+          width: 20px;
+          height: 20px;
+          left: 70%;
+          top: 70%;
+          animation-delay: 3s;
+        "
+      ></div>
     </div>
-</body>
+
+    <div class="container">
+      <div class="header">
+        <div class="logo">🎬</div>
+        <h1>AI Caption Generator</h1>
+        <p class="subtitle">Transform your videos with AI-powered captions</p>
+      </div>
+
+      {% with messages = get_flashed_messages(with_categories=true) %} {% if
+      messages %} {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        <i
+          class="fas fa-{% if category == 'error' %}exclamation-circle{% elif category == 'success' %}check-circle{% else %}info-circle{% endif %}"
+        ></i>
+        <span>{{ message }}</span>
+      </div>
+      {% endfor %} {% endif %} {% endwith %}
+
+      <form method="post" enctype="multipart/form-data" id="uploadForm">
+        <div class="form-group">
+          <label><i class="fas fa-video"></i> Video File</label>
+          <div class="file-input-wrapper">
+            <input
+              type="file"
+              name="video"
+              id="videoFile"
+              accept="video/*"
+              required
+            />
+            <label for="videoFile" class="file-input-label">
+              <i class="fas fa-cloud-upload-alt"></i>
+              <span id="fileLabel">Choose video file or drag & drop</span>
+            </label>
+          </div>
+          <div class="file-name" id="fileName"></div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-palette"></i> Caption Style</label>
+          <div class="select-wrapper">
+            <select name="style" required>
+              <option value="" disabled selected>Select caption style</option>
+              <option value="casual">🎭 Casual - Friendly & Relaxed</option>
+              <option value="formal">
+                👔 Formal - Professional & Polished
+              </option>
+              <option value="funny">😄 Funny - Humorous & Entertaining</option>
+              <option value="dramatic">🎪 Dramatic - Intense & Engaging</option>
+              <option value="minimal">✨ Minimal - Clean & Simple</option>
+              <option value="educational">
+                📚 Educational - Informative & Clear
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-language"></i> Language</label>
+          <div class="select-wrapper">
+            <select name="lang" required>
+              <option value="" disabled selected>Select output language</option>
+              <option value="en">🇬🇧 English</option>
+              <option value="hi">🇮🇳 Hindi</option>
+              <option value="es">🇪🇸 Spanish</option>
+              <option value="fr">🇫🇷 French</option>
+              <option value="de">🇩🇪 German</option>
+              <option value="zh">🇨🇳 Chinese</option>
+              <option value="ja">🇯🇵 Japanese</option>
+              <option value="ko">🇰🇷 Korean</option>
+              <option value="ar">🇸🇦 Arabic</option>
+              <option value="pt">🇵🇹 Portuguese</option>
+            </select>
+          </div>
+        </div>
+
+        <button type="submit" class="btn-submit" id="submitBtn">
+          <i class="fas fa-magic"></i> Generate Captions
+        </button>
+
+        <div class="loading" id="loading">
+          <div class="spinner"></div>
+          <p>Processing your video... This may take a few minutes.</p>
+        </div>
+      </form>
+
+      <div class="features">
+        <div class="feature"><i class="fas fa-robot"></i> AI-Powered</div>
+        <div class="feature"><i class="fas fa-globe"></i> Multi-Language</div>
+        <div class="feature"><i class="fas fa-bolt"></i> Fast Processing</div>
+        <div class="feature">
+          <i class="fas fa-shield-alt"></i> Secure & Private
+        </div>
+      </div>
+
+      <p class="note">
+        <i class="fas fa-info-circle"></i>
+        Supported formats: MP4, MOV, AVI, MKV | Max size: 500MB
+      </p>
+    </div>
+
+    <script>
+      // File input handling
+      const fileInput = document.getElementById("videoFile");
+      const fileLabel = document.getElementById("fileLabel");
+      const fileName = document.getElementById("fileName");
+      const uploadForm = document.getElementById("uploadForm");
+      const submitBtn = document.getElementById("submitBtn");
+      const loading = document.getElementById("loading");
+
+      fileInput.addEventListener("change", function (e) {
+        const file = e.target.files[0];
+        if (file) {
+          fileLabel.textContent = file.name;
+          fileName.textContent = `📁 ${file.name} (${(
+            file.size /
+            (1024 * 1024)
+          ).toFixed(2)} MB)`;
+        }
+      });
+
+      // Drag and drop
+      const fileInputWrapper = document.querySelector(".file-input-label");
+
+      ["dragenter", "dragover", "dragleave", "drop"].forEach((eventName) => {
+        fileInputWrapper.addEventListener(eventName, preventDefaults, false);
+      });
+
+      function preventDefaults(e) {
+        e.preventDefault();
+        e.stopPropagation();
+      }
+
+      ["dragenter", "dragover"].forEach((eventName) => {
+        fileInputWrapper.addEventListener(eventName, highlight, false);
+      });
+
+      ["dragleave", "drop"].forEach((eventName) => {
+        fileInputWrapper.addEventListener(eventName, unhighlight, false);
+      });
+
+      function highlight(e) {
+        fileInputWrapper.style.borderColor = "#764ba2";
+        fileInputWrapper.style.background =
+          "linear-gradient(135deg, #667eea 0%, #764ba2 100%)";
+        fileInputWrapper.style.color = "white";
+      }
+
+      function unhighlight(e) {
+        fileInputWrapper.style.borderColor = "#667eea";
+        fileInputWrapper.style.background =
+          "linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%)";
+        fileInputWrapper.style.color = "#667eea";
+      }
+
+      fileInputWrapper.addEventListener("drop", handleDrop, false);
+
+      function handleDrop(e) {
+        const dt = e.dataTransfer;
+        const files = dt.files;
+        fileInput.files = files;
+
+        const event = new Event("change", { bubbles: true });
+        fileInput.dispatchEvent(event);
+      }
+
+      // Form submission
+      uploadForm.addEventListener("submit", function () {
+        submitBtn.style.display = "none";
+        loading.style.display = "block";
+      });
+    </script>
+  </body>
 </html>
