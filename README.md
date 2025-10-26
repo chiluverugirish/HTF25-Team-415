@@ -1,68 +1,222 @@
-﻿# HTF25-Team-415
+﻿# HTF25-Team-415 - AI-Powered Video Caption Generator
 
-## GitHub submission guide
+An intelligent video captioning application that uses OpenAI Whisper for transcription and Google Gemini AI for caption rewriting. This tool automatically generates and overlays stylized captions on your videos.
 
-In this Readme, you will find a guide on how to fork this Repository, add files to it, and make a pull request to contribute your changes.
+## 🌟 Features
 
-<details open>
-<summary><h3>1. Login to your GitHub Account</h3></summary>
-<br>
-<p>Go to <a href="https://github.com">github.com</a> to log in.</p>
-<ul>
-   <li>Open the <a href="https://github.com/cbitosc/HTF25-Team-415">current repo</a> in a new tab.</li>
-   <li>Perform all operations in the newly opened tab, and follow the current tab for instructions.</li>
-</ul>
-</details>
+- **Automatic Transcription**: Uses OpenAI Whisper to transcribe video audio
+- **AI Caption Rewriting**: Leverages Google Gemini AI to rewrite captions in different styles
+- **Multi-language Support**: Generate captions in multiple languages
+- **Video Overlay**: Automatically overlays captions on your video
+- **Web Interface**: Easy-to-use Flask web interface
+- **Customizable Styles**: Choose from different caption styles
 
-<details open>
-<summary><h3>2. Fork the Repository</h3></summary>
-<br>
-<p align="center">
-  <img src="fork.jpeg" alt="Fork the Repository" height="300">
-</p>
-<ul>
- <li>In the newly opened tab, on the top-right corner, click on <b>Fork</b>.</li>
- <li>Enter the <b>Repository Name</b> as <b>HTF25-Team-415</b>.</li>
- <li>Then click <b>Create Fork</b>, leaving all other fields as default.</li>
- <li>After a few moments, you can view your forked repo.</li>
-</ul>
-</details>
+## 📋 Prerequisites
 
-<details open>
-<summary><h3>3. Clone your Repository</h3></summary>
-<br>
-<ul>
- <li>Click on <b>Code</b> and copy the <b>web URL</b> of your forked repository.</li>
- <li>Open terminal on your local machine.</li>
- <li>Run this command to clone the repo:</li>
-<pre><code>git clone https://github.com/your-username/HTF25-Team-415.git</code></pre>
-</ul>
-</details>
+Before you begin, ensure you have the following installed:
 
-<details open>
-<summary><h3>4. Adding files to the Repository</h3></summary>
-<br>
-<ul>
- <li>While doing it for the first time, create a new branch for your changes:</li>
-<pre><code>git checkout -b branch-name</code></pre>
- <li>Add files or modify existing ones.</li>
- <li>Stage your changes:</li>
-<pre><code>git add .</code></pre>
- <li>Commit your changes:</li>
-<pre><code>git commit -m "Descriptive commit message"</code></pre>
- <li>Push your branch to your fork:</li>
-<pre><code>git push origin branch-name</code></pre>
-</ul>
-</details>
+- **Python 3.10+**
+- **Conda** (Anaconda or Miniconda)
+- **Git**
 
-<details open>
-<summary><h3>5. Create a Pull Request</h3></summary>
-<br>
-<ul>
- <li>Click on the <b>Contribute</b> button in your fork and choose <b>Open Pull Request</b>.</li>
- <li>Leave all fields as default, then click <b>Create Pull Request</b>.</li>
- <li>Wait a few moments; your PR is now submitted.</li>
-</ul>
-</details>
+## 🚀 Installation
 
-## Thanks for participating!
+### Step 1: Clone the Repository
+
+```powershell
+git clone https://github.com/chiluverugirish/HTF25-Team-415.git
+cd HTF25-Team-415
+```
+
+### Step 2: Create Conda Environment
+
+```powershell
+conda create -n htf25 python=3.10 -y
+```
+
+### Step 3: Activate the Environment
+
+```powershell
+conda activate htf25
+```
+
+### Step 4: Install System Dependencies
+
+Install FFmpeg and ImageMagick (required for video processing):
+
+```powershell
+conda install -c conda-forge ffmpeg imagemagick -y
+```
+
+### Step 5: Install Python Dependencies
+
+```powershell
+pip install -r requirements.txt
+```
+
+### Step 6: Set Up Environment Variables
+
+Create a `.env` file in the project root directory and add your API keys:
+
+```env
+GEMINI_API_KEY=your_gemini_api_key_here
+```
+
+To get a Gemini API key:
+
+1. Visit [Google AI Studio](https://makersuite.google.com/app/apikey)
+2. Sign in with your Google account
+3. Create a new API key
+4. Copy and paste it into your `.env` file
+
+### Step 7: Verify Installation
+
+```powershell
+python -c "import streamlit; import whisper; import moviepy; print('✅ All packages installed successfully!')"
+```
+
+## 🎯 Usage
+
+### Running the Application
+
+Start the Flask web server:
+
+```powershell
+python app.py
+```
+
+The application will automatically open in your default browser at `http://127.0.0.1:5000/`
+
+### Using the Application
+
+1. **Upload Video**: Click the upload button and select your video file
+2. **Choose Style**: Select the caption style you prefer
+3. **Select Language**: Choose the output language for captions
+4. **Process**: Click submit to process your video
+5. **Download**: Once complete, download your captioned video
+
+## 📁 Project Structure
+
+```
+HTF25-Team-415/
+├── app.py                          # Main Flask application
+├── requirements.txt                # Python dependencies
+├── packages.txt                    # System dependencies
+├── disabled_keys.json             # Configuration file
+├── usage_counts.json              # Usage tracking
+├── scripts/
+│   ├── transcribe.py              # Video transcription module
+│   ├── generate_srt.py            # SRT subtitle generation
+│   ├── rewrite_captions_gemini.py # AI caption rewriting
+│   ├── overlay.py                 # Video caption overlay
+│   └── runall.py                  # Batch processing script
+├── templates/
+│   └── index.html                 # Web interface template
+└── examples/                      # Example videos/outputs
+```
+
+## 🛠️ Dependencies
+
+### Python Packages
+
+- **Flask**: Web framework
+- **streamlit**: Alternative UI framework
+- **openai-whisper**: Audio transcription
+- **moviepy**: Video processing
+- **google-generativeai**: Gemini AI integration
+- **python-dotenv**: Environment variable management
+- **pysrt**: SRT file handling
+
+### System Packages
+
+- **FFmpeg**: Video encoding/decoding
+- **ImageMagick**: Image processing
+
+## 🔧 Troubleshooting
+
+### Common Issues
+
+**Issue**: FFmpeg not found
+
+```powershell
+# Solution: Reinstall FFmpeg
+conda install -c conda-forge ffmpeg -y
+```
+
+**Issue**: Whisper model download fails
+
+```powershell
+# Solution: Manually download the model
+python -c "import whisper; whisper.load_model('base')"
+```
+
+**Issue**: ImportError for moviepy
+
+```powershell
+# Solution: Reinstall moviepy
+pip uninstall moviepy -y
+pip install moviepy==1.0.3
+```
+
+**Issue**: Gemini API error
+
+- Verify your API key is correct in the `.env` file
+- Check your API quota at [Google AI Studio](https://makersuite.google.com/)
+
+## 🌐 Environment Management
+
+### Activate Environment
+
+```powershell
+conda activate htf25
+```
+
+### Deactivate Environment
+
+```powershell
+conda deactivate
+```
+
+### Remove Environment (if needed)
+
+```powershell
+conda deactivate
+conda remove -n htf25 --all -y
+```
+
+## 🤝 Contributing
+
+This project was created for HTF25 (Hackathon). To contribute:
+
+1. Fork the repository
+2. Create a new branch (`git checkout -b feature-name`)
+3. Make your changes
+4. Commit your changes (`git add . && git commit -m "Add feature"`)
+5. Push to your fork (`git push origin feature-name`)
+6. Create a Pull Request
+
+## 📝 License
+
+This project is part of the HTF25 hackathon.
+
+## 👥 Team
+
+**Team 415** - HTF25 Hackathon Participants
+
+## 🙏 Acknowledgments
+
+- OpenAI Whisper for transcription capabilities
+- Google Gemini AI for caption rewriting
+- The open-source community for amazing libraries
+
+## 📞 Support
+
+If you encounter any issues or have questions:
+
+1. Check the [Troubleshooting](#-troubleshooting) section
+2. Open an issue on GitHub
+3. Contact the team maintainers
+
+---
+
+**Happy Captioning! 🎬✨**
