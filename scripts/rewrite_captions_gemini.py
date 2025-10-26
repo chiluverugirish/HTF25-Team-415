@@ -67,14 +67,54 @@ def has_exceeded_minute_limit(api_key, limit=PER_MINUTE_LIMIT):
 def rewrite_captions(text, style="casual", lang="en", model_name=None, max_retries=10, wait_seconds=5):
     """
     Rewrite captions using multiple Gemini API keys with automatic fallback.
+    Polishes text AND translates to target language if needed.
     """
- 
-    # Build the prompt dynamically for this segment
-    prompt = f"""Rewrite the following text in a casual style. Only output the rewritten text, nothing else.
+    
+    # Language name mapping
+    language_names = {
+        "en": "English",
+        "es": "Spanish",
+        "fr": "French",
+        "de": "German",
+        "it": "Italian",
+        "pt": "Portuguese",
+        "hi": "Hindi",
+        "zh": "Chinese",
+        "ja": "Japanese",
+        "ko": "Korean",
+        "ar": "Arabic",
+        "ru": "Russian"
+    }
+    
+    target_language = language_names.get(lang.lower(), "English")
+    
+    # Build the prompt dynamically with translation support
+    if lang.lower() == "en":
+        # English output - just rewrite with style
+        prompt = f"""Rewrite the following text in a {style} style. 
+Remove filler words (um, uh, like, you know), fix grammar, and make it clear and engaging.
+Only output the rewritten text, nothing else.
+
+Text: '{text}'
+"""
+    else:
+        # Non-English output - translate AND rewrite
+        prompt = f"""Translate the following text to {target_language} and rewrite it in a {style} style.
+Remove filler words, fix grammar, and make it clear and engaging.
+Only output the translated and rewritten text in {target_language}, nothing else.
 
 Text: '{text}'
 """
 
+    print(f"\n{'─'*60}")
+    print(f"✨ GEMINI API CALL")
+    print(f"{'─'*60}")
+    print(f"📝 Input text: {text[:60]}{'...' if len(text) > 60 else ''}")
+    print(f"🎨 Style: {style}")
+    print(f"🌍 Target Language: {target_language} ({lang})")
+    if lang.lower() != "en":
+        print(f"🔄 Translation: English → {target_language}")
+    print(f"📏 Text length: {len(text)} characters")
 
     api_keys = [
         "AIzaSyCG-BB-0iP8bTiTJiT9ZgC5eJkzDftV28I",
@@ -114,6 +154,9 @@ Text: '{text}'
     model_names = [model_name or "gemini-2.5-flash-preview-05-20"]
     disabled_keys_today = load_disabled_keys()
 
+    print(f"🔑 Total API keys: {len(api_keys)}")
+    print(f"🚫 Disabled keys today: {len(disabled_keys_today)}")
+
     for attempt in range(max_retries):
         available_keys = [
             k for k in api_keys
@@ -122,21 +165,43 @@ Text: '{text}'
             and not has_exceeded_minute_limit(k)
         ]
         if not available_keys:
+            print(f"❌ All API keys disabled or exceeded limits.")
             raise RuntimeError("All API keys disabled or exceeded limits.")
 
         key = random.choice(available_keys)
         model = random.choice(model_names)
 
+        print(f"\n🔄 Attempt {attempt + 1}/{max_retries}")
+        print(f"   🔑 Key: ...{key[-6:]}")
+        print(f"   🤖 Model: {model}")
+        print(f"   ✅ Available keys: {len(available_keys)}/{len(api_keys)}")
+
         try:
+            import time
+            start_time = time.time()
+            
             genai.configure(api_key=key)
             gemini = genai.GenerativeModel(model)
-            print(f"Using model {model} with key ending {key[-6:]}")
+            
             response = gemini.generate_content(prompt)
             increment_usage(key)
-            return GeminiResponse(response.text.strip())
+            
+            api_time = time.time() - start_time
+            output_text = response.text.strip()
+            
+            print(f"   ✅ SUCCESS in {api_time:.2f}s")
+            print(f"   📤 Output: {output_text[:60]}{'...' if len(output_text) > 60 else ''}")
+            print(f"   📊 Output length: {len(output_text)} characters")
+            print(f"{'─'*60}")
+            
+            return GeminiResponse(output_text)
         except Exception as e:
-            print(f"Key {key[-6:]} failed: {e}")
+            error_msg = str(e)
+            print(f"   ❌ FAILED: {error_msg[:80]}{'...' if len(error_msg) > 80 else ''}")
             save_disabled_key(key)
-            time.sleep(wait_seconds)
+            if attempt < max_retries - 1:
+                print(f"   ⏳ Waiting {wait_seconds}s before retry...")
+                time.sleep(wait_seconds)
 
+    print(f"❌ All Gemini API attempts failed after {max_retries} retries.")
     raise RuntimeError("All Gemini API attempts failed after retries.")

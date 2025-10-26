@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Videos - AI Caption Generator</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+    <style>
+      * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: "Poppins", sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 20px;
+      }
+
+      .navbar {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 20px 40px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .nav-brand {
+        font-size: 24px;
+        font-weight: 700;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+      }
+
+      .nav-links {
+        display: flex;
+        gap: 20px;
+        align-items: center;
+      }
+
+      .nav-link {
+        color: #667eea;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 10px 20px;
+        border-radius: 10px;
+        transition: all 0.3s ease;
+      }
+
+      .nav-link:hover {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .nav-user {
+        color: #333;
+        font-weight: 600;
+        margin-right: 15px;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+
+      .header {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 40px;
+        border-radius: 20px;
+        margin-bottom: 30px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      h1 {
+        font-weight: 700;
+        font-size: 36px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        margin-bottom: 10px;
+      }
+
+      .subtitle {
+        color: #666;
+        font-size: 16px;
+      }
+
+      .videos-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 25px;
+        margin-bottom: 30px;
+      }
+
+      .video-card {
+        background: rgba(255, 255, 255, 0.95);
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        transition: all 0.3s ease;
+      }
+
+      .video-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+      }
+
+      .video-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 15px;
+      }
+
+      .video-icon {
+        font-size: 40px;
+        color: #667eea;
+      }
+
+      .video-date {
+        font-size: 12px;
+        color: #999;
+      }
+
+      .video-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        margin-bottom: 10px;
+        word-break: break-word;
+      }
+
+      .video-info {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 15px;
+        font-size: 13px;
+      }
+
+      .info-badge {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        padding: 5px 12px;
+        border-radius: 8px;
+        color: #667eea;
+        font-weight: 600;
+      }
+
+      .video-actions {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+
+      .btn-action {
+        padding: 12px;
+        border-radius: 10px;
+        border: none;
+        font-weight: 600;
+        font-size: 13px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+
+      .btn-download {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+      }
+
+      .btn-download:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+      }
+
+      .btn-srt {
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        color: #667eea;
+      }
+
+      .btn-srt:hover {
+        background: linear-gradient(135deg, #c3cfe2 0%, #f5f7fa 100%);
+      }
+
+      .empty-state {
+        background: rgba(255, 255, 255, 0.95);
+        padding: 60px 40px;
+        border-radius: 20px;
+        text-align: center;
+        box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      }
+
+      .empty-state i {
+        font-size: 80px;
+        color: #667eea;
+        margin-bottom: 20px;
+      }
+
+      .empty-state h2 {
+        color: #333;
+        margin-bottom: 10px;
+      }
+
+      .empty-state p {
+        color: #666;
+        margin-bottom: 25px;
+      }
+
+      .btn-primary {
+        display: inline-block;
+        padding: 15px 30px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        text-decoration: none;
+        border-radius: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .btn-primary:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 30px rgba(102, 126, 234, 0.4);
+      }
+
+      @media (max-width: 768px) {
+        body {
+          padding: 10px;
+        }
+
+        .navbar {
+          flex-direction: column;
+          gap: 15px;
+          padding: 15px;
+          border-radius: 15px;
+          margin-bottom: 20px;
+        }
+
+        .nav-brand {
+          font-size: 20px;
+        }
+
+        .nav-links {
+          flex-direction: column;
+          width: 100%;
+          gap: 10px;
+        }
+
+        .nav-link {
+          width: 100%;
+          text-align: center;
+          padding: 12px 15px;
+        }
+
+        .nav-user {
+          text-align: center;
+          margin-right: 0;
+          margin-bottom: 5px;
+        }
+
+        .header {
+          padding: 30px 20px;
+          border-radius: 15px;
+          margin-bottom: 20px;
+        }
+
+        h1 {
+          font-size: 28px;
+        }
+
+        .subtitle {
+          font-size: 14px;
+        }
+
+        .videos-grid {
+          grid-template-columns: 1fr;
+          gap: 20px;
+        }
+
+        .video-card {
+          padding: 20px;
+          border-radius: 15px;
+        }
+
+        .video-icon {
+          font-size: 35px;
+        }
+
+        .video-title {
+          font-size: 15px;
+        }
+
+        .video-info {
+          flex-direction: column;
+          gap: 10px;
+        }
+
+        .info-badge {
+          width: 100%;
+          text-align: center;
+        }
+
+        .video-actions {
+          grid-template-columns: 1fr;
+          gap: 8px;
+        }
+
+        .btn-action {
+          padding: 12px;
+          font-size: 14px;
+        }
+
+        .empty-state {
+          padding: 40px 20px;
+          border-radius: 15px;
+        }
+
+        .empty-state i {
+          font-size: 60px;
+        }
+
+        .empty-state h2 {
+          font-size: 22px;
+        }
+
+        .empty-state p {
+          font-size: 14px;
+        }
+
+        .btn-primary {
+          padding: 12px 25px;
+          font-size: 14px;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .navbar {
+          padding: 12px;
+        }
+
+        .nav-brand {
+          font-size: 18px;
+        }
+
+        .header {
+          padding: 25px 15px;
+        }
+
+        h1 {
+          font-size: 24px;
+        }
+
+        .video-card {
+          padding: 15px;
+        }
+
+        .video-icon {
+          font-size: 30px;
+        }
+
+        .video-title {
+          font-size: 14px;
+        }
+
+        .video-date {
+          font-size: 11px;
+        }
+
+        .empty-state {
+          padding: 30px 15px;
+        }
+
+        .empty-state i {
+          font-size: 50px;
+        }
+
+        .empty-state h2 {
+          font-size: 20px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="navbar">
+      <div class="nav-brand">🎬 AI Caption Generator</div>
+      <div class="nav-links">
+        <span class="nav-user"
+          ><i class="fas fa-user-circle"></i> {{ username }}</span
+        >
+        <a href="{{ url_for('index') }}" class="nav-link">
+          <i class="fas fa-plus"></i> New Video
+        </a>
+        <a href="{{ url_for('logout') }}" class="nav-link">
+          <i class="fas fa-sign-out-alt"></i> Logout
+        </a>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="header">
+        <h1>📚 My Video Library</h1>
+        <p class="subtitle">All your processed videos in one place</p>
+      </div>
+
+      {% if videos %}
+      <div class="videos-grid">
+        {% for video in videos %}
+        <div class="video-card">
+          <div class="video-header">
+            <div class="video-icon">
+              <i class="fas fa-film"></i>
+            </div>
+            <div class="video-date">{{ video.processed_at }}</div>
+          </div>
+
+          <div class="video-title">{{ video.original_filename }}</div>
+
+          <div class="video-info">
+            <span class="info-badge">
+              <i class="fas fa-palette"></i> {{ video.style|title }}
+            </span>
+            <span class="info-badge">
+              <i class="fas fa-language"></i> {{ video.language|upper }}
+            </span>
+          </div>
+
+          <div class="video-actions">
+            <a
+              href="{{ url_for('download', filename=video.video_file) }}"
+              class="btn-action btn-download"
+            >
+              <i class="fas fa-download"></i>
+              Video
+            </a>
+            <a
+              href="{{ url_for('download', filename=video.srt_file) }}"
+              class="btn-action btn-srt"
+            >
+              <i class="fas fa-file-alt"></i>
+              SRT
+            </a>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="empty-state">
+        <i class="fas fa-video-slash"></i>
+        <h2>No Videos Yet</h2>
+        <p>
+          You haven't processed any videos yet. Start creating captions now!
+        </p>
+        <a href="{{ url_for('index') }}" class="btn-primary">
+          <i class="fas fa-plus"></i> Process Your First Video
+        </a>
+      </div>
+      {% endif %}
+    </div>
+  </body>
+</html>

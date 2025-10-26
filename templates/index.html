@@ -312,6 +312,106 @@
         margin-right: 8px;
       }
 
+      /* Video Preview Styles */
+      .video-preview {
+        display: none;
+        margin: 25px 0;
+        padding: 20px;
+        background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        border-radius: 15px;
+        animation: fadeIn 0.5s ease-out;
+      }
+
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: scale(0.95);
+        }
+        to {
+          opacity: 1;
+          transform: scale(1);
+        }
+      }
+
+      .video-preview.show {
+        display: block;
+      }
+
+      .preview-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .preview-title {
+        font-size: 14px;
+        font-weight: 600;
+        color: #667eea;
+        display: flex;
+        align-items: center;
+      }
+
+      .preview-title i {
+        margin-right: 8px;
+      }
+
+      .remove-video {
+        background: #ff4757;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 12px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .remove-video:hover {
+        background: #ff3838;
+        transform: scale(1.05);
+      }
+
+      .remove-video i {
+        margin-right: 5px;
+      }
+
+      .video-player {
+        width: 100%;
+        max-height: 300px;
+        border-radius: 12px;
+        background: #000;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      .video-info {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+        margin-top: 15px;
+      }
+
+      .video-info-item {
+        background: white;
+        padding: 10px;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .video-info-label {
+        font-size: 11px;
+        color: #999;
+        text-transform: uppercase;
+        margin-bottom: 5px;
+      }
+
+      .video-info-value {
+        font-size: 14px;
+        font-weight: 600;
+        color: #667eea;
+      }
+
       .features {
         display: grid;
         grid-template-columns: repeat(2, 1fr);
@@ -339,6 +439,64 @@
         padding: 20px;
       }
 
+      .user-banner {
+        background: linear-gradient(135deg, #e8f5e9 0%, #c8e6c9 100%);
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        animation: slideDown 0.5s ease-out;
+      }
+
+      .user-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        color: #2e7d32;
+        font-weight: 600;
+      }
+
+      .user-links {
+        display: flex;
+        gap: 10px;
+      }
+
+      .user-link {
+        padding: 8px 15px;
+        background: white;
+        color: #667eea;
+        text-decoration: none;
+        border-radius: 8px;
+        font-size: 13px;
+        font-weight: 600;
+        transition: all 0.3s ease;
+      }
+
+      .user-link:hover {
+        background: #667eea;
+        color: white;
+        transform: translateY(-2px);
+      }
+
+      .guest-banner {
+        background: linear-gradient(135deg, #fff3e0 0%, #ffe0b2 100%);
+        padding: 15px 20px;
+        border-radius: 12px;
+        margin-bottom: 25px;
+        text-align: center;
+        color: #e65100;
+        font-size: 13px;
+        animation: slideDown 0.5s ease-out;
+      }
+
+      .guest-banner a {
+        color: #e65100;
+        font-weight: 600;
+        text-decoration: underline;
+      }
+
       .spinner {
         border: 3px solid #f3f3f3;
         border-top: 3px solid #667eea;
@@ -359,16 +517,159 @@
       }
 
       @media (max-width: 768px) {
+        body {
+          padding: 10px;
+          align-items: flex-start;
+        }
+
         .container {
-          padding: 30px 25px;
+          padding: 25px 20px;
+          margin: 10px 0;
+          border-radius: 20px;
+        }
+
+        .logo {
+          font-size: 50px;
+          margin-bottom: 10px;
         }
 
         h1 {
-          font-size: 26px;
+          font-size: 24px;
+        }
+
+        .subtitle {
+          font-size: 13px;
+        }
+
+        .header {
+          margin-bottom: 25px;
+        }
+
+        .user-banner,
+        .guest-banner {
+          padding: 12px 15px;
+          font-size: 12px;
+          flex-direction: column;
+          gap: 10px;
+          text-align: center;
+        }
+
+        .user-info {
+          justify-content: center;
+        }
+
+        .user-links {
+          width: 100%;
+          flex-direction: column;
+        }
+
+        .user-link {
+          width: 100%;
+          padding: 10px;
+          text-align: center;
+        }
+
+        .form-group {
+          margin-bottom: 20px;
+        }
+
+        label {
+          font-size: 13px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        select {
+          padding: 12px 15px;
+          font-size: 14px;
+        }
+
+        .file-input-label {
+          padding: 30px 20px;
+          font-size: 14px;
+        }
+
+        .video-preview {
+          padding: 15px;
+        }
+
+        .preview-header {
+          flex-direction: column;
+          gap: 10px;
+          align-items: stretch;
+        }
+
+        .video-info {
+          grid-template-columns: 1fr;
+          gap: 8px;
         }
 
         .features {
           grid-template-columns: 1fr;
+          gap: 12px;
+        }
+
+        .feature {
+          padding: 12px;
+          font-size: 12px;
+        }
+
+        .note {
+          font-size: 11px;
+          flex-direction: column;
+          gap: 5px;
+        }
+
+        .btn-submit {
+          padding: 15px;
+          font-size: 15px;
+        }
+
+        .alert {
+          padding: 12px 15px;
+          font-size: 13px;
+        }
+
+        /* Hide particles on mobile for better performance */
+        .particles {
+          display: none;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .container {
+          padding: 20px 15px;
+        }
+
+        .logo {
+          font-size: 40px;
+        }
+
+        h1 {
+          font-size: 20px;
+        }
+
+        .subtitle {
+          font-size: 12px;
+        }
+
+        .user-banner,
+        .guest-banner {
+          font-size: 11px;
+          padding: 10px 12px;
+        }
+
+        .video-info-item {
+          padding: 8px;
+        }
+
+        .video-info-label {
+          font-size: 10px;
+        }
+
+        .video-info-value {
+          font-size: 12px;
         }
       }
     </style>
@@ -435,8 +736,31 @@
         <p class="subtitle">Transform your videos with AI-powered captions</p>
       </div>
 
-      {% with messages = get_flashed_messages(with_categories=true) %} {% if
-      messages %} {% for category, message in messages %}
+      <!-- User Status Banner -->
+      {% if session.get('user_id') %}
+      <div class="user-banner">
+        <div class="user-info">
+          <i class="fas fa-user-circle"></i>
+          <span>Logged in as {{ session.get('username') }}</span>
+        </div>
+        <div class="user-links">
+          <a href="{{ url_for('history') }}" class="user-link">
+            <i class="fas fa-history"></i> My Videos
+          </a>
+          <a href="{{ url_for('logout') }}" class="user-link">
+            <i class="fas fa-sign-out-alt"></i> Logout
+          </a>
+        </div>
+      </div>
+      {% else %}
+      <div class="guest-banner">
+        <i class="fas fa-info-circle"></i>
+        <strong>Guest Mode:</strong> Videos won't be saved to history.
+        <a href="{{ url_for('login') }}">Login</a> or
+        <a href="{{ url_for('register') }}">Register</a> to save your work.
+      </div>
+      {% endif %} {% with messages = get_flashed_messages(with_categories=true)
+      %} {% if messages %} {% for category, message in messages %}
       <div class="alert alert-{{ category }}">
         <i
           class="fas fa-{% if category == 'error' %}exclamation-circle{% elif category == 'success' %}check-circle{% else %}info-circle{% endif %}"
@@ -464,6 +788,56 @@
           <div class="file-name" id="fileName"></div>
         </div>
 
+        <!-- Video Preview Section -->
+        <div class="video-preview" id="videoPreview">
+          <div class="preview-header">
+            <div class="preview-title">
+              <i class="fas fa-eye"></i>
+              Video Preview
+            </div>
+            <button type="button" class="remove-video" id="removeVideo">
+              <i class="fas fa-trash"></i>
+              Remove
+            </button>
+          </div>
+          <video id="previewPlayer" class="video-player" controls></video>
+          <div class="video-info" id="videoInfo">
+            <div class="video-info-item">
+              <div class="video-info-label">Duration</div>
+              <div class="video-info-value" id="videoDuration">--</div>
+            </div>
+            <div class="video-info-item">
+              <div class="video-info-label">Size</div>
+              <div class="video-info-value" id="videoSize">--</div>
+            </div>
+            <div class="video-info-item">
+              <div class="video-info-label">Format</div>
+              <div class="video-info-value" id="videoFormat">--</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label><i class="fas fa-tachometer-alt"></i> Processing Speed</label>
+          <div class="select-wrapper">
+            <select name="speed" required>
+              <option value="" disabled selected>
+                Select processing speed
+              </option>
+              <option value="tiny">
+                ⚡ Fastest - 32x speed (~15s per min)
+              </option>
+              <option value="base" selected>
+                🎯 Balanced - 16x speed (~4s per min) ✨ Recommended
+              </option>
+              <option value="small">
+                🎨 Quality - 6x speed (~10s per min)
+              </option>
+              <option value="medium">💎 Best - 2x speed (~30s per min)</option>
+            </select>
+          </div>
+        </div>
+
         <div class="form-group">
           <label><i class="fas fa-palette"></i> Caption Style</label>
           <div class="select-wrapper">
@@ -484,10 +858,14 @@
         </div>
 
         <div class="form-group">
-          <label><i class="fas fa-language"></i> Language</label>
+          <label
+            ><i class="fas fa-language"></i> Caption Language (Output)</label
+          >
           <div class="select-wrapper">
             <select name="lang" required>
-              <option value="" disabled selected>Select output language</option>
+              <option value="" disabled selected>
+                Select caption language
+              </option>
               <option value="en">🇬🇧 English</option>
               <option value="hi">🇮🇳 Hindi</option>
               <option value="es">🇪🇸 Spanish</option>
@@ -498,8 +876,21 @@
               <option value="ko">🇰🇷 Korean</option>
               <option value="ar">🇸🇦 Arabic</option>
               <option value="pt">🇵🇹 Portuguese</option>
+              <option value="ru">🇷🇺 Russian</option>
+              <option value="it">🇮🇹 Italian</option>
             </select>
           </div>
+          <small
+            style="
+              color: #999;
+              font-size: 12px;
+              margin-top: 5px;
+              display: block;
+            "
+          >
+            💡 Audio will be transcribed, then translated to your selected
+            language
+          </small>
         </div>
 
         <button type="submit" class="btn-submit" id="submitBtn">
@@ -535,16 +926,58 @@
       const uploadForm = document.getElementById("uploadForm");
       const submitBtn = document.getElementById("submitBtn");
       const loading = document.getElementById("loading");
+      const videoPreview = document.getElementById("videoPreview");
+      const previewPlayer = document.getElementById("previewPlayer");
+      const removeVideoBtn = document.getElementById("removeVideo");
+      const videoDuration = document.getElementById("videoDuration");
+      const videoSize = document.getElementById("videoSize");
+      const videoFormat = document.getElementById("videoFormat");
 
       fileInput.addEventListener("change", function (e) {
         const file = e.target.files[0];
         if (file) {
+          // Update file label
           fileLabel.textContent = file.name;
           fileName.textContent = `📁 ${file.name} (${(
             file.size /
             (1024 * 1024)
           ).toFixed(2)} MB)`;
+
+          // Show video preview
+          const fileURL = URL.createObjectURL(file);
+          previewPlayer.src = fileURL;
+          videoPreview.classList.add("show");
+
+          // Update video info
+          videoSize.textContent = `${(file.size / (1024 * 1024)).toFixed(
+            2
+          )} MB`;
+          videoFormat.textContent =
+            file.type.split("/")[1].toUpperCase() || "MP4";
+
+          // Get video duration when metadata loads
+          previewPlayer.addEventListener("loadedmetadata", function () {
+            const duration = previewPlayer.duration;
+            const minutes = Math.floor(duration / 60);
+            const seconds = Math.floor(duration % 60);
+            videoDuration.textContent = `${minutes}:${seconds
+              .toString()
+              .padStart(2, "0")}`;
+          });
         }
+      });
+
+      // Remove video button
+      removeVideoBtn.addEventListener("click", function () {
+        fileInput.value = "";
+        previewPlayer.src = "";
+        videoPreview.classList.remove("show");
+        fileLabel.innerHTML =
+          '<i class="fas fa-cloud-upload-alt"></i> Choose video file or drag & drop';
+        fileName.textContent = "";
+        videoDuration.textContent = "--";
+        videoSize.textContent = "--";
+        videoFormat.textContent = "--";
       });
 
       // Drag and drop
@@ -593,7 +1026,14 @@
       }
 
       // Form submission
-      uploadForm.addEventListener("submit", function () {
+      uploadForm.addEventListener("submit", function (e) {
+        // Validate video is selected
+        if (!fileInput.files || !fileInput.files[0]) {
+          e.preventDefault();
+          alert("Please select a video file first!");
+          return;
+        }
+
         submitBtn.style.display = "none";
         loading.style.display = "block";
       });
